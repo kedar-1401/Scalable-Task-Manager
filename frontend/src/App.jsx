@@ -29,6 +29,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/tasks/add" element={authState.isLoggedIn ? <Task /> : <Navigate to="/login" state={{ redirectUrl: "/tasks/add" }} />} />
           <Route path="/tasks/:taskId" element={authState.isLoggedIn ? <Task /> : <Navigate to="/login" state={{ redirectUrl: window.location.pathname }} />} />
+          <Route path="/*" element={<NotFound />} />
           {/* <Route path="/tasks/add" element={ <Task />} />
           <Route path="/tasks/:taskId" element={ <Task />  }/> */}
         </Routes>

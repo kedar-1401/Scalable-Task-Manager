@@ -3,24 +3,34 @@ const app = express();
 const port = process.env.PORT || 5000;
 const path = require("path");
 const cors = require("cors");
-require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const errormiddleware=require('./middlewares/errorMiddleware') 
-app.use(express.json());
-app.use(cors());
+
+
 
 const MongoDB=require('../backend/utils/db')
 MongoDB();
+
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+}
+
+app.use(express.json());
+
+app.use(cors(corsOptions));
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/profile", profileRoutes);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.resolve(__dirname, "../frontend/build")));
-  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "../frontend/build/index.html")));
-}
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.resolve(__dirname, "../frontend/build")));
+//   app.get("*", (req, res) => res.sendFile(path.resolve(__dirname, "../frontend/build/index.html")));
+// }
 
 app.use(errormiddleware);
 app.listen(port, () => {

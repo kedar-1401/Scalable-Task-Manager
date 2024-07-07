@@ -61,7 +61,7 @@ const Task = () => {
       setFormErrors(errors.reduce((total, ob) => ({ ...total, [ob.field]: ob.err }), {}));
       return;
     }
-
+    console.log(authState.token);
     if (mode === "add") {
       const config = { url: "/tasks", method: "post", data: formData, headers: { Authorization: authState.token } };
       fetchData(config).then(() => {
