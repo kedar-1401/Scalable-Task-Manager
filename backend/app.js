@@ -1,28 +1,31 @@
+
+
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 const path = require("path");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const errormiddleware=require('./middlewares/errorMiddleware') 
+// const clienr=require('../frontend')
 
 
-
-const MongoDB=require('../backend/utils/db')
+const MongoDB=require('./utils/db')
 MongoDB();
 
 
-var corsOptions = {
-  origin: 'http://localhost:3000',
-  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-  credentials: true,
-}
+// var corsOptions = {
+//   origin: 'http://localhost:3000',
+//   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+//   credentials: true,
+// }
 
 app.use(express.json());
 
-app.use(cors(corsOptions));
+app.use(cors());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/profile", profileRoutes);

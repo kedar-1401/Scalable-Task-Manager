@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+
+  backend:
+
+    image: backendapp
+    container_name: backend-cont
+    command: /usr/src/app/node_modules/.bin/nodemon app.js
+    volumes:
+    - ./backend/:/usr/src/app
+    - /usr/src/app/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    env_file:
+      - ./backend/.env
+    networks:
+      - app_network
+    
+  mongo:
+    image: mongo
+    container_name: mongo-cont
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app_network
+
+  frontend:
+    image: frontendapp
+    container_name: frontend-cont
+    command: npm start
+    volumes:
+      - ./frontend/:/usr/app
+      - /usr/app/node_modules
+    depends_on:
+      - backend
+    ports:
+      - '3000:3000'
+    networks:
+      - app_network
+  
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+    data-volume:
+    node_modules:
+    web-root:
+      driver: local
