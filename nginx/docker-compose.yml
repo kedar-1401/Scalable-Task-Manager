@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: node-app
+    container_name: nodec
+    volumes:
+      - ./backend/:/app #to link backend folder to the container folder so that 
+      #we can edit the code in the container just by editing code in our host machine
+      #No need to restart the container
+      - /app/node_modules #This is to set only to container node_modules,not update with host machine
+    ports:
+      - 5000:5000  # Map local port 5000 to container port 5000
+    depends_on:
+      - mongo
+    env_file: ./backend/.env
+    networks:
+      - app_network  # Join the network
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    volumes:
+      - data-volume:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - app_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: react-app
+    container_name: reactc
+    volumes:
+      - ./frontend/:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    stdin_open: true
+    tty: true
+    ports:
+      - 3000:3000
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
+
+volumes:
+  data-volume:
+    driver: local

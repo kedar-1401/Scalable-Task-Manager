@@ -16,11 +16,11 @@ const MongoDB=require('./utils/db')
 MongoDB();
 
 
-// var corsOptions = {
-//   origin: 'http://localhost:3000',
-//   methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
-//   credentials: true,
-// }
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  methods: "GET, POST, PUT, DELETE, PATCH, HEAD",
+  credentials: true,
+}
 
 app.use(express.json());
 

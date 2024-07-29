@@ -3,21 +3,15 @@ version: '3'
 services:
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    image: node-app
-    container_name: nodec
-    volumes:
-      - ./backend/:/app #to link backend folder to the container folder so that 
-      #we can edit the code in the container just by editing code in our host machine
-      #No need to restart the container
-      - /app/node_modules #This is to set only to container node_modules,not update with host machine
+    image: kedar1401/dockermern:backend
+    container_name: backend
     ports:
-      - 5000:5000  # Map local port 5000 to container port 5000
+      - 5000:5000  
     depends_on:
       - mongo
-    env_file: ./backend/.env
+    environment:
+      MONGOURI: mongodb+srv://kedardhule14:iCBSiQXdJ7VsRgSR@dockermern-clustor1.b62rpfw.mongodb.net/?retryWrites=true&w=majority&appName=DockerMERN-clustor1
+      ACCESS_TOKEN_SECRET: DockerMERN
     networks:
       - app_network  # Join the network
 
@@ -32,14 +26,8 @@ services:
       - app_network
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    image: react-app
-    container_name: reactc
-    volumes:
-      - ./frontend/:/app
-      - /app/node_modules
+    image: kedar1401/dockermern:frontend
+    container_name: frontend
     depends_on:
       - backend
     stdin_open: true

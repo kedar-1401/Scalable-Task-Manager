@@ -1,0 +1,11 @@
+1) Changing package.json file's run command to 
+nodemon -L app.js 
+
+- To having legecy mode to track any file changes ,called polling
+- Generally nodemon uses native file syustem events for tracking changes
+
+2) WHy we need base image ?
+
+# we need base image for fundamental necesities of applicaition like OS libraries,language runtime like js,python
+
+#even container share host os kernal ,it still need it's own user space to run the application 
