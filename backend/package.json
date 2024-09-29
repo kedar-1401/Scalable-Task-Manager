@@ -4,7 +4,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon -L app.js --ignore '../frontend/'",
-    "start": "node app.js"
+    "start": "node app.js",
+    "build":""
   },
   "keywords": [
     "Task manager",
